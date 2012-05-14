@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-def levenshtein_distance(a, b):
+def damerau_levenshtein_distance(a, b):
     '''
-    レーベンシュタイン距離を計算します
+    2つの文字列間のDamerau-Levenshtein距離を計算します
     
     @param a: unicode    対象文字列
     @param b: unicode    比較文字列
@@ -24,11 +24,13 @@ def levenshtein_distance(a, b):
             else:
                 x = 1
             m[i][j] = min(m[i-1][j] + 1, m[i][j-1] + 1, m[i-1][j-1] + x)
+            if i > 1 and j > 1 and a[i-1] == b[j-2] and [i-2] == b[j-1]:
+                m[i][j] = min(m[i][j], m[i-2][j-2] + x)
             
     return m[-1][-1]
 
 def main():
-    print levenshtein_distance("appl", "plan")
+    print damerau_levenshtein_distance("abc", "cba")
     
 if __name__ == "__main__":
     main()
